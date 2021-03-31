@@ -1,112 +1,97 @@
-// Heap Sort using Max-Heap DataStructure //
-
-/* Algorithm 
-	
-       
-*/
-
-/* Notes
-
-1> Complexity: Worst-case O(n log n) runtime.
-
-2> Heapsort is an in-place algorithm, but is not a stable sort.
-
-3> An interesting alternative to Heapsort is Introsort which combines quicksort and heapsort to retain 
-   advantages of both: worst case speed of heapsort and average speed of quicksort.
-	
-*/
-
-
-#include<iostream>
-#include<cmath>			// for floor function 
+#include<iostream>		
 using namespace std;
 
 class HeapSort
 {
-	public:
-	
-		static void Sort(int *a, int num)
-		{
-			BuildHeap(a,num);
-			for(int i=num-1;i>0;i--)
-			{
-				Swap(&a[0],&a[i]);
-				num--;
-				Heapify(a,0,num);
-			}				
-		}
-		
-		static void BuildHeap(int *a,int num)
-		{
-			for(int i=(int)(floor(num/2));i>=0;i--)
-				Heapify(a,i,num);
-		}
-		
-		static void Heapify(int *a,int i,int num)
-		{
-			int l = Left(i);
-			int r = Right(i);
-			int largest;
-			
-			if(l<num && a[l] > a[i])
-				largest = l;
-			else
-				largest = i;
-			
-			if(r<num && a[r] > a[largest])
-				largest = r;
-				
-			if (largest != i)
-			{
-				Swap(&a[i],&a[largest]);
-				Heapify(a,largest,num);		
-			}							
-		}
-		
-		static int Left(int i)
-		{
-			return(2*i+1);
-		}
-		
-		static int Right(int i)
-		{
-			return(2*i+2);
-		}
-		
-		static void Swap(int *a, int *b)
-		{
-			if(*a!=*b)
-			{
-				*a ^= *b;
-				*b ^= *a;
-				*a ^= *b;	
-			}
-		}
+public:
+	static int* GetParent(int* array, int index)
+	{
+		return &array[(index - 1) / 2];
+	}
+	static int* GetLeftChild(int* array, int index)
+	{
+		return &array[(index * 2) + 1];
+	}
+	static int* GetRightChild(int* array, int index)
+	{
+		return &array[(index * 2) + 2];
+	}
 
+	static void Swap(int* a, int* b)
+	{
+		int temp = *a;
+		*a = *b;
+		*b = temp;
+	}
+
+	static void Heapify(int* array, int size)
+	{
+		for(int index = 1; index < size; index++)
+		{
+			while(index > 0 && array[index] > *GetParent(array, index))
+			{
+				Swap(&array[index], GetParent(array, index));
+				index = (index - 1) / 2;
+			}
+		}	
+	}
+
+	static void Sort(int* array, int size)
+	{
+		for(int j = 1; j < size; j++)
+		{
+			int index = 0;
+			int child = (index * 2) + 1;
+			int temp = array[index];
+
+			array[index] = array[size - j];
+
+			while(child < size - j)
+			{
+				if(array[child] < array[child + 1])
+					child += 1;
+				if(array[child] > array[index])
+				{
+					Swap(&array[child], &array[index]);
+					index = child;
+					child = (index * 2) + 1;
+				}
+				else
+					break;
+			}
+
+			array[size - j] = temp;
+		}
+	}	
 };
 
 int main()
 {
-	int num,i=0;
-	cout<<"No. of elements:";
-	cin>>num;
+	int size = 10;
+
+	cout << "Enter size of array: ";
+	cin >> size;
 	
-	int a[num];
+	int array[size];
 
-	while(i<num)
+	cout << endl << "Enter the elements:" << endl;
+	for(int i = 0; i < size; i++)
 	{
-		cout<<"Value for a["<<i<<"]:";
-		cin>>a[i++];		
-	}		
-
-	HeapSort::Sort(a,num);
-
-	cout<<"\n\nSorted Array:";
-	i=0;
-	while(i<num)
-	{
-		cout<<a[i]<< ", ";
-		i++;	
+		cout << "\telement " << i << " >> ";
+		cin >> array[i];
 	}
+
+	cout << "Array before sorting:" << endl;
+	for(int i = 0; i < size; i++)
+		cout << "\telement " << i << " >> " << array[i] << endl;
+
+	HeapSort::Heapify(array,size);
+	HeapSort::Sort(array, size);
+
+	cout << "Array after sorting:" << endl;
+	for(int i = 0; i < size; i++)
+		cout << "\telement " << i << " >> " << array[i] << endl;
+
+	getchar();
 }
 
