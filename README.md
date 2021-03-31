@@ -1,6 +1,6 @@
 <h1>What is this?</h1>
 <p>
-  This is a collection of famous sorting algorithms implemented in <code>c++</code>. The algorithms includes are
+  This is a collection of famous sorting algorithms implemented in <code>c++</code>. The algorithms included are
 </p>
 <ul>
   <li>Bubble Sort</li>
