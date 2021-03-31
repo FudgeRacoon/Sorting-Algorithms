@@ -11,7 +11,7 @@ public:
 		*b = temp;
 	}
 
-	static void Sort(int *array, int size)
+	static void Sort(int* array, int size)
 	{
 		for(int pass = 0; pass < size - 1; pass++)
 			for(int index = 0; index < size - pass - 1; index++)
@@ -23,7 +23,7 @@ public:
 
 int main()
 {
-	int size ;
+	int size;
 
 	cout << "Enter size of array: ";
 	cin >> size;

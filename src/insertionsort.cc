@@ -1,66 +1,49 @@
-/* Algorithm 
-	
-         for i <- 1 to length[A]-1 do
-                value <- A[i] 
-                j <- i-1
-                while j >= 0 and A[j] > value do 
-                         A[j + 1] = A[j];
-                         j <- j-1
-                A[j+1] <- value
-*/
-
-/* Notes
-		1> In-place
-		2> Online algorithm		
-	
-*/
-
-
 #include<iostream>
 using namespace std;
 
 class InsertionSort
 {
 	public:
-		static void Sort(int *a, int num)
+		static void Sort(int* array, int size)
 		{
-			int value,j;
-			for(int i=1;i<num;i++)
+			for(int index = 1; index < size; index++)
 			{
-				value = *(a+i);		// value = a[i]
-				j = i-1;
-				while(j>=0 && *(a+j) > value)		// a[j] > value
+				int marker = array[index];
+				int pointer = index - 1;
+
+				while(pointer >= 0 && marker < array[pointer])
 				{
-					*(a+j+1) = *(a+j);
-					j--;
+					array[pointer + 1] = array[pointer];
+					pointer--;
 				}
-				*(a+j+1) = value;
+				array[++pointer] = marker;
 			}
 		}
-
 };
 
 int main()
 {
-	int num,i=0;
-	cout<<"No. of elements:";
-	cin>>num;
+	int size;
+
+	cout << "Enter size of array: ";
+	cin >> size;
 	
-	int a[num];
+	int array[size];
 
-	while(i<num)
+	cout << endl << "Enter the elements:" << endl;
+	for(int i = 0; i < size; i++)
 	{
-		cout<<"Value for a["<<i<<"]:";
-		cin>>a[i++];		
-	}		
-
-	InsertionSort::Sort(a,num);
-
-	cout<<"\n\nSorted Array:";
-	i=0;
-	while(i<num)
-	{
-		cout<<a[i]<< ", ";
-		i++;	
+		cout << "\telement " << i << " >> ";
+		cin >> array[i];
 	}
+
+	cout << "Array before sorting:" << endl;
+	for(int i = 0; i < size; i++)
+		cout << "\telement " << i << " >> " << array[i] << endl;
+
+	InsertionSort::Sort(array, size);
+
+	cout << "Array after sorting:" << endl;
+	for(int i = 0; i < size; i++)
+		cout << "\telement " << i << " >> " << array[i] << endl;
 }
